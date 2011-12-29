@@ -3,13 +3,15 @@
 <html>
     <head>
         <title>#{get 'title' /}</title>
-        <meta charset="${_response_encoding}">
+        <meta charset="UTF-8">
+        
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
         #{get 'moreStyles' /}
-        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+        
         <script data-main="@{'public/javascripts/main.js'}" src="@{'public/javascripts/lib/require-1.0.3.js'}"
-        		type="text/javascript" charset="${_response_encoding}"></script>
+        		type="text/javascript"></script>
         #{get 'moreScripts' /}
+        
     </head>
     <body>
         #{doLayout /}
