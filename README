@@ -1,3 +1,18 @@
-Test project for CoffeeScript & Backbone with AMD
+Test project for CoffeeScript & Backbone with AMD and Jasmine
 
 Use Play! Framework 1.2.4
+
+Usage:
+play run
+
+Go to localhost:9000
+
+Jasmine runner: localhost:9000/jasmine
+
+Technologies used:
+- Play! Framework
+- Twitter Bootstrap
+- Backbone.js
+- Require.js
+- CoffeeScript
+- Jasmine
