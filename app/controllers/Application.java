@@ -9,6 +9,10 @@ import com.google.gson.JsonElement;
 
 public class Application extends Controller {
 
+	public static void jasmine() {
+		render();
+	}
+	
 	public static void index() {
 		render();
 	}
