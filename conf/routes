@@ -16,6 +16,7 @@ GET			/clear								Application.clear
 GET			/foos								Application.listFoos
 POST		/foos								Application.createFoo
 PUT			/foos/{id}							Application.updateFoo
+DELETE		/foos/{id}							Application.deleteFoo
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

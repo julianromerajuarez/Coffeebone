@@ -34,4 +34,10 @@ public class Application extends Controller {
 				foo.name);
 		renderJSON(foo);
 	}
+
+	public static void deleteFoo(Long id) {
+		Foo foo = Foo.findById(id);
+		Logger.info("Deleted Foo with id=%s", foo.id);
+		foo.delete();
+	}
 }

@@ -5,7 +5,7 @@ eclipse
 tmp
 modules
 test-result
-lib
+/lib
 logs
 precompiled
 server.pid
