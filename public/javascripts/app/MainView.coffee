@@ -1,22 +1,22 @@
 define ['backbone', 'cs!FooView'], (Backbone, FooView) ->
 	class MainView extends Backbone.View
-		constructor: (@foos) -> super
+		constructor: (@fooCollection) -> super
 		el: $('#foo-app')
 		events:
 			'click #new-foo': 'makeFoo'
 		initialize: =>
-			@foos.bind('add', @addFoo)
-			@foos.bind('reset', @addAll)
-			@foos.bind('all', @render)
-			@foos.fetch()
+			@fooCollection.bind('add', @addFoo)
+			@fooCollection.bind('reset', @addAll)
+			@fooCollection.bind('all', @render)
+			@fooCollection.fetch()
 		render: (event) =>
-			foos = @foos.foos().length
-			bars = @foos.bars().length
-			$('#foo-count').text("#{foos} foos and #{bars} bars")
+      fooCount = @fooCollection.foos().length
+      barCount = @fooCollection.bars().length
+      $('#foo-count').text("#{fooCount} foos and #{barCount} bars")
 		makeFoo: =>
-			@foos.create()
+			@fooCollection.create()
 		addFoo: (foo) =>
 			view = new FooView {model: foo}
 			$('#foo-list').append(view.render().el)
 		addAll: =>
-			@foos.each @addFoo
+			@fooCollection.each @addFoo
