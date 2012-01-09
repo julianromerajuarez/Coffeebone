@@ -1,6 +1,8 @@
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.lang.StringUtils;
+
 import models.Foo;
 
 import play.Logger;
@@ -20,6 +22,10 @@ public class Bootstrap extends Job<Void> {
 		try {
 			JedisPool pool = null;
 			String redisEnvURL = System.getenv("REDISTOGO_URL");
+
+			if (StringUtils.isEmpty(redisEnvURL))
+				redisEnvURL = "localhost";
+
 			Logger.info("redisEnvURL: " + redisEnvURL);
 
 			URI redisURI = new URI(redisEnvURL);

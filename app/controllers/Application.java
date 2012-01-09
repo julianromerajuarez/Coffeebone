@@ -2,6 +2,9 @@ package controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+
+import jsondto.JSONDTOUtil;
 
 import models.Foo;
 import play.mvc.Controller;
@@ -29,25 +32,32 @@ public class Application extends Controller {
 		index();
 	}
 
-	public static void listFoos() {
-		renderJSON(Foo.findAll());
+	public static void listFoos() throws Exception {
+		List<Foo> foos = Foo.findAll();
+		
+		renderJSON(foos);
+		//JSONDTOUtil.renderDTO(foos, response);
 	}
 
-	public static void createFoo(JsonElement body) {
-		Foo foo = new Gson().fromJson(body, Foo.class).save();
+	public static void createFoo(Foo.DTO dto) {
+		Foo foo = new Foo();
+		foo.merge(dto);
+		foo.save();
+
 		Logger.info("Created new Foo with id=%s", foo.id);
 		renderJSON(foo);
 	}
 
-	public static void updateFoo(JsonElement body, String id) {
-		Foo newFoo = new Gson().fromJson(body, Foo.class);
-		Foo oldFoo = Foo.get(id);
-		oldFoo.name = newFoo.name;
-		oldFoo.save();
+	public static void updateFoo(String id, Foo.DTO dto) {
+		Foo foo = Foo.get(id);
+		notFoundIfNull(foo);
 
-		Logger.info("Updated existing Foo with id=%s, new name=%s", oldFoo.id,
-				oldFoo.name);
-		renderJSON(oldFoo);
+		foo.merge(dto);
+		foo.save();
+
+		Logger.info("Updated existing Foo with id=%s, new name=%s", foo.id,
+				foo.name);
+		renderJSON(foo);
 	}
 
 	public static void deleteFoo(String id) {

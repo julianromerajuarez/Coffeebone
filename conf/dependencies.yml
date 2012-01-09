@@ -3,4 +3,12 @@
 require:
     - play 1.2.4
     - redis.clients -> jedis 2.0.0
-    
+    - jsondto -> jsondto
+
+repositories:
+
+    - jsondto:
+        type: local
+        artifact: ${application.path}/jsondto
+        contains:
+            - jsondto -> jsondto

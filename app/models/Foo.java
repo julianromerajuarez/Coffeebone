@@ -11,6 +11,9 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 
+import jsondto.JSONDTO;
+import jsondto.JSONDTORepresentable;
+
 import play.Logger;
 import play.data.binding.TypeBinder;
 import redis.clients.jedis.Jedis;
@@ -22,7 +25,23 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public class Foo {
+public class Foo implements JSONDTORepresentable<Foo.DTO> {
+
+	public class DTO implements JSONDTO {
+		public String id;
+		public String name;
+	}
+
+	public void merge(DTO dto) {
+		this.name = dto.name;
+	}
+
+	public DTO toDTO() {
+		DTO dto = new DTO();
+		dto.id = id;
+		dto.name = name;
+		return dto;
+	}
 
 	public transient static JedisPool pool = null;
 
@@ -93,4 +112,5 @@ public class Foo {
 		}
 		return foos;
 	}
+
 }
