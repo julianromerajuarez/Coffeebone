@@ -7,13 +7,13 @@ package jsondto;
  * 
  * @author Jarno Rantanen <jarno.rantanen@futurice.com>
  */
-public interface JSONDTORepresentable<DTO extends JSONDTO> {
+public interface JSONDTORepresentable<T, DTO extends JSONDTO> {
 
 	/**
 	 * Copies any state in the given JSON-DTO to this model object.
 	 * 
 	 */
-	public void merge(DTO dto);
+	public T merge(DTO dto);
 	
 	/**
 	 * Returns a JSON-DTO-representation of this model object.

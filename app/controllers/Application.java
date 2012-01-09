@@ -33,30 +33,18 @@ public class Application extends Controller {
 	}
 
 	public static void listFoos() throws Exception {
-		List<Foo> foos = Foo.findAll();
-		
-		renderJSON(foos);
-		//JSONDTOUtil.renderDTO(foos, response);
+		renderJSON(Foo.findAll());
 	}
 
 	public static void createFoo(Foo.DTO dto) {
-		Foo foo = new Foo();
-		foo.merge(dto);
-		foo.save();
-
+		Foo foo = new Foo().merge(dto).save();
 		Logger.info("Created new Foo with id=%s", foo.id);
 		renderJSON(foo);
 	}
 
 	public static void updateFoo(String id, Foo.DTO dto) {
-		Foo foo = Foo.get(id);
-		notFoundIfNull(foo);
-
-		foo.merge(dto);
-		foo.save();
-
-		Logger.info("Updated existing Foo with id=%s, new name=%s", foo.id,
-				foo.name);
+		Foo foo = Foo.get(id).merge(dto).save();
+		Logger.info("Updated a Foo with id=%s, new name=%s", foo.id, foo.name);
 		renderJSON(foo);
 	}
 

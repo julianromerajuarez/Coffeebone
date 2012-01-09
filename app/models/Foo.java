@@ -25,15 +25,21 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public class Foo implements JSONDTORepresentable<Foo.DTO> {
+public class Foo implements JSONDTORepresentable<Foo, Foo.DTO> {
 
+	public transient static JedisPool pool = null;
+
+	public String id = UUID.randomUUID().toString();
+	public String name;
+	
 	public class DTO implements JSONDTO {
 		public String id;
 		public String name;
 	}
 
-	public void merge(DTO dto) {
+	public Foo merge(DTO dto) {
 		this.name = dto.name;
+		return this;
 	}
 
 	public DTO toDTO() {
@@ -42,12 +48,6 @@ public class Foo implements JSONDTORepresentable<Foo.DTO> {
 		dto.name = name;
 		return dto;
 	}
-
-	public transient static JedisPool pool = null;
-
-	public String id = UUID.randomUUID().toString();
-
-	public String name;
 
 	public Foo() {
 	}

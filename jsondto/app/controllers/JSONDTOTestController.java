@@ -32,7 +32,7 @@ public class JSONDTOTestController extends Controller {
 	 * This is a test class standing in for an actual Model object.
 	 * 
 	 */
-	public static class Note implements JSONDTORepresentable<Note.DTO> {
+	public static class Note implements JSONDTORepresentable<Note, Note.DTO> {
 
 		private String title;
 
@@ -45,8 +45,9 @@ public class JSONDTOTestController extends Controller {
 		}
 
 		@Override
-		public void merge(DTO dto) {
+		public Note merge(DTO dto) {
 			this.title = dto.tit;
+			return this;
 		}
 
 		@Override
