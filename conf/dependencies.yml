@@ -3,3 +3,4 @@
 require:
     - play 1.2.4
     - redis.clients -> jedis 2.0.0
+    

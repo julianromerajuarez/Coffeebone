@@ -16,38 +16,6 @@ import com.google.gson.JsonElement;
 
 public class Application extends Controller {
 
-	private static JedisPool pool = null;
-
-	static {
-		try {
-			String redisEnvURL = System.getenv("REDISTOGO_URL");
-			Logger.info("redisEnvURL: " + redisEnvURL);
-
-			URI redisURI = new URI(redisEnvURL);
-
-			if (redisURI.getUserInfo() != null) {
-				pool = new JedisPool(new JedisPoolConfig(), redisURI.getHost(),
-						redisURI.getPort(), Protocol.DEFAULT_TIMEOUT, redisURI
-								.getUserInfo().split(":", 2)[1]);
-			} else
-				pool = new JedisPool(new JedisPoolConfig(), redisEnvURL);
-		} catch (URISyntaxException e) {
-			Logger.error("URI couldn't be parsed. Handle exception, %s", e);
-
-		}
-	}
-
-	public static void testRedis() {
-		Jedis jedis = pool.getResource();
-		try {
-			jedis.set("foo", "bar");
-			String foobar = jedis.get("foo");
-			renderJSON(foobar);
-		} finally {
-			pool.returnResource(jedis);
-		}
-	}
-
 	public static void jasmine() {
 		render();
 	}
@@ -71,15 +39,19 @@ public class Application extends Controller {
 		renderJSON(foo);
 	}
 
-	public static void updateFoo(JsonElement body, Long id) {
-		Foo foo = new Gson().fromJson(body, Foo.class).mergeSave();
-		Logger.info("Updated existing Foo with id=%s, new name=%s", foo.id,
-				foo.name);
-		renderJSON(foo);
+	public static void updateFoo(JsonElement body, String id) {
+		Foo newFoo = new Gson().fromJson(body, Foo.class);
+		Foo oldFoo = Foo.get(id);
+		oldFoo.name = newFoo.name;
+		oldFoo.save();
+
+		Logger.info("Updated existing Foo with id=%s, new name=%s", oldFoo.id,
+				oldFoo.name);
+		renderJSON(oldFoo);
 	}
 
-	public static void deleteFoo(Long id) {
-		Foo foo = Foo.findById(id);
+	public static void deleteFoo(String id) {
+		Foo foo = Foo.get(id);
 		Logger.info("Deleted Foo with id=%s", foo.id);
 		foo.delete();
 	}
