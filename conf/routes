@@ -5,6 +5,8 @@
 GET     /								Application.index
 GET     /favicon.ico					404
 
+GET     /testRedis                      Application.testRedis
+
 GET		/jasmine						Application.jasmine
 
 GET		/clear							Application.clear
