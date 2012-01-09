@@ -19,26 +19,22 @@ public class Application extends Controller {
 	private static JedisPool pool = null;
 
 	static {
-		String redisURI = System.getenv("REDISTOGO_URL");
-		Logger.info("redisURI: " + redisURI);
-		pool = new JedisPool(new JedisPoolConfig(), redisURI);
-		
-//		try {
-//			URI redisURI = new URI();
-//			Logger.info("redisURI: " + redisURI);
-//			
-//			Logger.info("redisURI: " + redisURI);
-//			Logger.info("redisURI.getHost: " + redisURI.getHost());
-//			Logger.info("redisURI.getPort: " + redisURI.getPort());
-//			Logger.info("redisURI.getUserInfo: " + redisURI.getUserInfo());
-//			
-//			pool = new JedisPool(new JedisPoolConfig(), redisURI.getHost(),
-//					redisURI.getPort(), Protocol.DEFAULT_TIMEOUT, redisURI
-//							.getUserInfo().split(":", 2)[1]);
-//		} catch (URISyntaxException e) {
-//			Logger.error("Redis URI couldn't be parsed. Handle exception, %s",
-//					e);
-//		}
+		try {
+			String redisEnvURL = System.getenv("REDISTOGO_URL");
+			Logger.info("redisEnvURL: " + redisEnvURL);
+
+			URI redisURI = new URI(redisEnvURL);
+
+			if (redisURI.getUserInfo() != null) {
+				pool = new JedisPool(new JedisPoolConfig(), redisURI.getHost(),
+						redisURI.getPort(), Protocol.DEFAULT_TIMEOUT, redisURI
+								.getUserInfo().split(":", 2)[1]);
+			} else
+				pool = new JedisPool(new JedisPoolConfig(), redisEnvURL);
+		} catch (URISyntaxException e) {
+			Logger.error("URI couldn't be parsed. Handle exception, %s", e);
+
+		}
 	}
 
 	public static void testRedis() {
