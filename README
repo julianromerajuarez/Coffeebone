@@ -1,5 +1,7 @@
 Test project for CoffeeScript & Backbone with AMD and Jasmine
 
+Running on http://coffeebone.herokuapp.com/
+
 Use Play! Framework 1.2.4
 
 Usage:
@@ -11,6 +13,7 @@ Jasmine runner: localhost:9000/jasmine
 
 Technologies used:
 - Play! Framework
+- RedisToGo on Heroku
 - Twitter Bootstrap
 - Backbone.js
 - Require.js
