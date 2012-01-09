@@ -25,13 +25,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public class Foo implements JSONDTORepresentable<Foo, Foo.DTO> {
-
-	public transient static JedisPool pool = null;
+public class Foo extends RedisModel implements
+		JSONDTORepresentable<Foo, Foo.DTO> {
 
 	public String id = UUID.randomUUID().toString();
 	public String name;
-	
+
 	public class DTO implements JSONDTO {
 		public String id;
 		public String name;
@@ -58,59 +57,54 @@ public class Foo implements JSONDTORepresentable<Foo, Foo.DTO> {
 	}
 
 	public Foo save() {
-		Jedis jedis = pool.getResource();
-		try {
-			jedis.set(id, name);
-		} finally {
-			pool.returnResource(jedis);
-		}
+		execute(new Function<String>() {
+			public String execute(Jedis jedis) {
+				return jedis.set(id, name);
+			}
+		});
 		return this;
 	}
 
 	public void delete() {
-		Jedis jedis = pool.getResource();
-		try {
-			jedis.del(id);
-		} finally {
-			pool.returnResource(jedis);
-		}
+		execute(new Function<Long>() {
+			public Long execute(Jedis jedis) {
+				return jedis.del(id);
+			}
+		});
 	}
 
-	public static Foo get(String id) {
-		Jedis jedis = pool.getResource();
-		try {
-			String name = jedis.get(id);
-			return new Foo(id, name);
-		} finally {
-			pool.returnResource(jedis);
-		}
+	public static Foo get(final String id) {
+		return execute(new Function<Foo>() {
+			public Foo execute(Jedis jedis) {
+				String name = jedis.get(id);
+				return new Foo(id, name);
+			}
+		});
 	}
 
 	public static void deleteAll() {
-		Jedis jedis = pool.getResource();
-		try {
-			Set<String> keys = jedis.keys("*");
-			for (String key : keys)
-				jedis.del(key);
-		} finally {
-			pool.returnResource(jedis);
-		}
+		execute(new Function<Void>() {
+			public Void execute(Jedis jedis) {
+				Set<String> keys = jedis.keys("*");
+				for (String key : keys)
+					jedis.del(key);
+				return null;
+			}
+		});
 	}
 
 	public static List<Foo> findAll() {
-		List<Foo> foos = new ArrayList<Foo>();
-		Jedis jedis = pool.getResource();
-		try {
-			Set<String> keys = jedis.keys("*");
-			for (String id : keys) {
-				String name = jedis.get(id);
-				foos.add(new Foo(id, name));
+		return execute(new Function<List<Foo>>() {
+			public List<Foo> execute(Jedis jedis) {
+				List<Foo> foos = new ArrayList<Foo>();
+				Set<String> keys = jedis.keys("*");
+				for (String id : keys) {
+					String name = jedis.get(id);
+					foos.add(new Foo(id, name));
+				}
+				return foos;
 			}
-
-		} finally {
-			pool.returnResource(jedis);
-		}
-		return foos;
+		});
 	}
 
 }

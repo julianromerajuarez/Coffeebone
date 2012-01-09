@@ -4,6 +4,7 @@ import java.net.URISyntaxException;
 import org.apache.commons.lang.StringUtils;
 
 import models.Foo;
+import models.RedisModel;
 
 import play.Logger;
 import play.jobs.Job;
@@ -37,7 +38,7 @@ public class Bootstrap extends Job<Void> {
 			} else
 				pool = new JedisPool(new JedisPoolConfig(), redisEnvURL);
 
-			Foo.pool = pool;
+			RedisModel.pool = pool;
 
 			Logger.info("Redis pool configured successfully.");
 
