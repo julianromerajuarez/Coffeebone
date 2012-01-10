@@ -21,8 +21,12 @@
     <body>
         #{doLayout /}
         
-         <script data-main="@{'public/javascripts/main.js'}" src="@{'public/javascripts/lib/require-1.0.3.js'}"
-                type="text/javascript"></script>
+        #{if play.mode.isDev()}
+            <script data-main="@{'public/javascripts/main.js'}" src="@{'public/javascripts/lib/require-1.0.3.js'}" type="text/javascript"></script>
+        #{/if}
+        #{else}
+            <script data-main="@{'public-build/javascripts/main.js'}" src="@{'public-build/javascripts/lib/require-1.0.3.js'}" type="text/javascript"></script>
+        #{/else}
         
         #{get 'moreScripts' /}
     </body>

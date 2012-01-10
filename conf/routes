@@ -16,4 +16,9 @@ POST	/foos							Application.createFoo
 PUT		/foos/{id}						Application.updateFoo
 DELETE	/foos/{id}						Application.deleteFoo
 
+# Raw DEV assets
 GET     /public/						staticDir:public
+
+# Minified PROD assets
+GET     /public-build/                  staticDir:public-build
+
