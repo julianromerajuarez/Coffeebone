@@ -2,7 +2,11 @@
     appDir: "../",
     baseUrl: "javascripts/app",
     dir: "../../public-build",
-    optimize: 'none',
+    optimize: "uglify",
+    pragmasOnSave: {
+        //Just an example
+        excludeCoffeeScript: true
+    },
     
     paths: {
 		cs:			'../lib/cs-0.3.1',

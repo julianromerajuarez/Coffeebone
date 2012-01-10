@@ -9,6 +9,7 @@ Use Play! Framework 1.2.4
 
 Usage:
 ./redis-server &
+play deps
 play run
 
 Go to localhost:9000
