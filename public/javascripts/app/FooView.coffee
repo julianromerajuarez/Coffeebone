@@ -1,6 +1,7 @@
 define ['underscore', 'backbone', 'text!../../templates/fooTemplate.html'], (_, Backbone, fooTemplate) ->
   class FooView extends Backbone.View
     tagName: 'li'
+    className: 'foo-row'
     template:
       _.template fooTemplate
     events:
