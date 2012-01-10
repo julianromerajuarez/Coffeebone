@@ -1,0 +1,15 @@
+
+javascripts/app/../main.js
+----------------
+javascripts/app/../lib/cs-0.3.1.js
+javascripts/app/../lib/jquery-1.6.4.js
+javascripts/app/../lib/underscore-1.2.3.js
+javascripts/app/../lib/backbone-0.5.3-amd.js
+cs!Foo
+cs!FooCollection
+javascripts/app/../lib/text-1.0.2.js
+text!../../templates/fooTemplate.html
+cs!FooView
+cs!MainView
+cs!App
+javascripts/app/../main.js
